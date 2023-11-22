@@ -226,6 +226,16 @@ public class Character2DMovement : MonoBehaviour
 			var grounded = mController.isGrounded;
 			var jump = mInput.jump;
 			var falling = !mController.isGrounded && mFallTimeoutDelta <= 0.0f;
+			
+			if (mInput.move.x < 0 && mHeadingRight)
+			{
+				mHeadingRight = false;
+				transform.rotation *= Quaternion.Euler(0, 180, 0);
+			} else if (mInput.move.x > 0 && !mHeadingRight)
+			{
+				mHeadingRight = true;
+				transform.rotation *= Quaternion.Euler(0, 180, 0);
+			}
 
 			/*
 			 * Task #1a: Passing properties to the Animator
@@ -265,6 +275,13 @@ public class Character2DMovement : MonoBehaviour
 			 *   * Current Animator instance: *animator*
 			 *   * Animator methods: *SetFloat* and *SetBool*
 			 */
+			
+			animator.SetFloat("Speed", speed);
+			animator.SetFloat("MoveSpeed", moveSpeed);
+			animator.SetBool("Jump", jump);
+			animator.SetBool("Grounded", grounded);
+			animator.SetBool("Fall", falling);
+			animator.SetBool("Crouch", crouch);
 	    }
     }
 }
